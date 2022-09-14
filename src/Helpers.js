@@ -29,10 +29,11 @@ export const PLACEHOLDER_ACCOUNT = ethers.Wallet.createRandom().address;
 export const MAINNET = 56;
 export const AVALANCHE = 43114;
 export const TESTNET = 97;
+export const LOCAL = 31337;
 export const ARBITRUM_TESTNET = 421611;
 export const ARBITRUM = 42161;
 // TODO take it from web3
-export const DEFAULT_CHAIN_ID = ARBITRUM;
+export const DEFAULT_CHAIN_ID = LOCAL;
 export const CHAIN_ID = DEFAULT_CHAIN_ID;
 
 export const MIN_PROFIT_TIME = 0;
@@ -44,6 +45,7 @@ const CHAIN_NAMES_MAP = {
   [TESTNET]: "BSC Testnet",
   [ARBITRUM_TESTNET]: "ArbRinkeby",
   [ARBITRUM]: "Arbitrum",
+  [LOCAL]: "LOCAL",
   [AVALANCHE]: "Avalanche",
 };
 
@@ -229,6 +231,50 @@ export const ICONLINKS = {
       arbitrum: "https://arbiscan.io/address/0x17fc002b466eec40dae837fc4be5c67993ddbd6f",
     },
   },
+  [LOCAL]: {
+    GMX: {
+      coingecko: "https://www.coingecko.com/en/coins/gmx",
+      arbitrum: "https://arbiscan.io/address/0xfc5a1a6eb076a2c7ad06ed22c90d7e710e35ad0a",
+    },
+    GLP: {
+      arbitrum: "https://arbiscan.io/token/0x1aDDD80E6039594eE970E5872D247bf0414C8903",
+    },
+    ETH: {
+      coingecko: "https://www.coingecko.com/en/coins/ethereum",
+    },
+    BTC: {
+      coingecko: "https://www.coingecko.com/en/coins/wrapped-bitcoin",
+      arbitrum: "https://arbiscan.io/address/0x2f2a2543b76a4166549f7aab2e75bef0aefc5b0f",
+    },
+    LINK: {
+      coingecko: "https://www.coingecko.com/en/coins/chainlink",
+      arbitrum: "https://arbiscan.io/address/0xf97f4df75117a78c1a5a0dbb814af92458539fb4",
+    },
+    UNI: {
+      coingecko: "https://www.coingecko.com/en/coins/uniswap",
+      arbitrum: "https://arbiscan.io/address/0xfa7f8980b0f1e64a2062791cc3b0871572f1f7f0",
+    },
+    USDC: {
+      coingecko: "https://www.coingecko.com/en/coins/usd-coin",
+      arbitrum: "https://arbiscan.io/address/0xff970a61a04b1ca14834a43f5de4533ebddb5cc8",
+    },
+    USDT: {
+      coingecko: "https://www.coingecko.com/en/coins/tether",
+      arbitrum: "https://arbiscan.io/address/0xfd086bc7cd5c481dcc9c85ebe478a1c0b69fcbb9",
+    },
+    DAI: {
+      coingecko: "https://www.coingecko.com/en/coins/dai",
+      arbitrum: "https://arbiscan.io/address/0xda10009cbd5d07dd0cecc66161fc93d7c9000da1",
+    },
+    MIM: {
+      coingecko: "https://www.coingecko.com/en/coins/magic-internet-money",
+      arbitrum: "https://arbiscan.io/address/0xfea7a6a0b346362bf88a9e4a88416b77a57d6c2a",
+    },
+    FRAX: {
+      coingecko: "https://www.coingecko.com/en/coins/frax",
+      arbitrum: "https://arbiscan.io/address/0x17fc002b466eec40dae837fc4be5c67993ddbd6f",
+    },
+  },
   [AVALANCHE]: {
     GMX: {
       coingecko: "https://www.coingecko.com/en/coins/gmx",
@@ -285,6 +331,23 @@ export const platformTokens = {
       imageUrl: "https://github.com/gmx-io/gmx-assets/blob/main/GMX-Assets/PNG/GLP_LOGO%20ONLY.png?raw=true",
     },
   },
+  31337: {
+    // arbitrum
+    GMX: {
+      name: "GMX",
+      symbol: "GMX",
+      decimals: 18,
+      address: getContract(LOCAL, "GMX"),
+      imageUrl: "https://assets.coingecko.com/coins/images/18323/small/arbit.png?1631532468",
+    },
+    GLP: {
+      name: "GMX LP",
+      symbol: "GLP",
+      decimals: 18,
+      address: getContract(LOCAL, "StakedGlpTracker"), // address of fsGLP token because user only holds fsGLP
+      imageUrl: "https://github.com/gmx-io/gmx-assets/blob/main/GMX-Assets/PNG/GLP_LOGO%20ONLY.png?raw=true",
+    },
+  },
   43114: {
     // avalanche
     GMX: {
@@ -304,7 +367,7 @@ export const platformTokens = {
   },
 };
 
-const supportedChainIds = [ARBITRUM, AVALANCHE];
+const supportedChainIds = [ARBITRUM, AVALANCHE, LOCAL];
 if (isDevelopment()) {
   supportedChainIds.push(ARBITRUM_TESTNET);
 }
@@ -319,6 +382,7 @@ const getWalletConnectConnector = () => {
       [AVALANCHE]: AVALANCHE_RPC_PROVIDERS[0],
       [ARBITRUM]: ARBITRUM_RPC_PROVIDERS[0],
       [ARBITRUM_TESTNET]: "https://rinkeby.arbitrum.io/rpc",
+      [LOCAL]: "http://localhost:8545",
     },
     qrcode: true,
     chainId,
@@ -1273,6 +1337,7 @@ export const BSC_RPC_PROVIDERS = [
 const RPC_PROVIDERS = {
   [MAINNET]: BSC_RPC_PROVIDERS,
   [ARBITRUM]: ARBITRUM_RPC_PROVIDERS,
+  [LOCAL]: ["http://localhost:8545"],
   [AVALANCHE]: AVALANCHE_RPC_PROVIDERS,
 };
 
@@ -2140,6 +2205,17 @@ const NETWORK_METADATA = {
     },
     rpcUrls: ["https://rinkeby.arbitrum.io/rpc"],
     blockExplorerUrls: ["https://rinkeby-explorer.arbitrum.io/"],
+  },
+  [LOCAL]: {
+    chainId: "0x" + LOCAL.toString(16),
+    chainName: "LOCAL",
+    nativeCurrency: {
+      name: "ETH",
+      symbol: "ETH",
+      decimals: 18,
+    },
+    rpcUrls: ["http://localhost:8545"],
+    blockExplorerUrls: ["http://localhost:4000/"],
   },
   [ARBITRUM]: {
     chainId: "0x" + ARBITRUM.toString(16),

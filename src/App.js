@@ -13,6 +13,7 @@ import { Switch, Route, NavLink, HashRouter as Router, Redirect, useLocation, us
 import {
   ARBITRUM,
   ARBITRUM_TESTNET,
+  LOCAL,
   AVALANCHE,
   DEFAULT_SLIPPAGE_AMOUNT,
   SLIPPAGE_BPS_KEY,
@@ -140,10 +141,17 @@ const arbWsProvider = new ethers.providers.WebSocketProvider(getAlchemyWsUrl());
 
 const avaxWsProvider = new ethers.providers.JsonRpcProvider("https://api.avax.network/ext/bc/C/rpc");
 
+const localWsProvider = new ethers.providers.JsonRpcProvider("http://localhost:8545");
+
 function getWsProvider(active, chainId) {
   if (!active) {
     return;
   }
+
+  if (chainId === LOCAL) {
+    return localWsProvider;
+  }
+
   if (chainId === ARBITRUM) {
     return arbWsProvider;
   }
@@ -245,6 +253,13 @@ function AppHeaderUser({
       value: ARBITRUM_TESTNET,
       icon: "ic_arbitrum_24.svg",
       color: "#264f79",
+    });
+
+    networkOptions.push({
+      label: getChainName(LOCAL),
+      value: LOCAL,
+      icon: "ic_arbitrum_24.svg",
+      color: "#00ff00",
     });
   }
 

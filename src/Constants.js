@@ -1,6 +1,6 @@
 import { ethers } from "ethers";
 
-import { MAINNET, TESTNET, ARBITRUM_TESTNET, ARBITRUM, AVALANCHE } from "./Helpers";
+import { MAINNET, TESTNET, ARBITRUM_TESTNET, ARBITRUM, AVALANCHE, LOCAL } from "./Helpers";
 
 const { parseEther } = ethers.utils;
 
@@ -23,6 +23,20 @@ const constants = {
 
   [ARBITRUM_TESTNET]: {
     nativeTokenSymbol: "ETH",
+    defaultCollateralSymbol: "USDC",
+    defaultFlagOrdersEnabled: false,
+    positionReaderPropsLength: 9,
+    v2: true,
+
+    SWAP_ORDER_EXECUTION_GAS_FEE: parseEther("0.0003"),
+    INCREASE_ORDER_EXECUTION_GAS_FEE: parseEther("0.0003"),
+    // contract requires that execution fee be strictly greater than instead of gte
+    DECREASE_ORDER_EXECUTION_GAS_FEE: parseEther("0.000300001"),
+  },
+
+  [LOCAL]: {
+    nativeTokenSymbol: "ETH",
+    wrappedTokenSymbol: "WETH",
     defaultCollateralSymbol: "USDC",
     defaultFlagOrdersEnabled: false,
     positionReaderPropsLength: 9,

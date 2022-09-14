@@ -118,12 +118,52 @@ const TOKENS = {
       isStable: true,
     },
   ],
+  31337: [
+    {
+      name: "Bitcoin",
+      symbol: "BTC",
+      decimals: 8,
+      address: "0xFD6F7A6a5c21A3f503EBaE7a473639974379c351",
+      isShortable: true,
+    },
+    {
+      name: "Ethereum",
+      symbol: "ETH",
+      decimals: 18,
+      address: ethers.constants.AddressZero,
+      isNative: true,
+      isShortable: true,
+    },
+    // https://github.com/OffchainLabs/arbitrum/blob/950c2f91b2e951cd3764394e0a73eac3797aecf3/packages/arb-ts/src/lib/networks.ts#L65
+    {
+      name: "Wrapped Ethereum",
+      symbol: "WETH",
+      decimals: 18,
+      address: "0x927b167526bAbB9be047421db732C663a0b77B11",
+      isWrapped: true,
+      baseSymbol: "ETH",
+    },
+    {
+      name: "USD Coin",
+      symbol: "USDC",
+      decimals: 6,
+      address: "0xB2b580ce436E6F77A5713D80887e14788Ef49c9A",
+      isStable: true,
+    },
+    {
+      name: "Tether",
+      symbol: "USDT",
+      decimals: 6,
+      address: "0xefAB0Beb0A557E452b398035eA964948c750b2Fd",
+      isStable: true,
+    },
+  ],
   421611: [
     {
       name: "Bitcoin",
       symbol: "BTC",
       decimals: 8,
-      address: "0x27960f9A322BE96A1535E6c19B3958e80E6a2670",
+      address: "0xbcC7d7D644cCd9Bab964BdB3F4e291078fcE508f",
       isShortable: true,
     },
     {
@@ -147,14 +187,14 @@ const TOKENS = {
       name: "USD Coin",
       symbol: "USDC",
       decimals: 6,
-      address: "0xf0DCd4737A20ED33481A49De94C599944a3Ca737",
+      address: "0xC2745cAFB988745437d358C9C36893692e2B511d",
       isStable: true,
     },
     {
       name: "Tether",
       symbol: "USDT",
       decimals: 6,
-      address: "0x818ED84bA1927945b631016e0d402Db50cE8865f",
+      address: "0xd634bDcAF75e6E096F1767ED48817b13c6d3AE62",
       isStable: true,
     },
   ],
@@ -317,6 +357,26 @@ const TOKENS = {
 };
 
 const ADDITIONAL_TOKENS = {
+  31337: [
+    {
+      name: "GMX",
+      symbol: "GMX",
+      address: getContract(31337, "GMX"),
+      decimals: 18,
+    },
+    {
+      name: "Escrowed GMX",
+      symbol: "esGMX",
+      address: getContract(31337, "ES_GMX"),
+      decimals: 18,
+    },
+    {
+      name: "GMX LP",
+      symbol: "GLP",
+      address: getContract(31337, "GLP"),
+      decimals: 18,
+    },
+  ],
   42161: [
     {
       name: "GMX",
@@ -359,7 +419,7 @@ const ADDITIONAL_TOKENS = {
   ],
 };
 
-const CHAIN_IDS = [56, 97, 42161, 421611, 43114];
+const CHAIN_IDS = [56, 97, 31337, 42161, 421611, 43114];
 
 const TOKENS_MAP = {};
 const TOKENS_BY_SYMBOL_MAP = {};
