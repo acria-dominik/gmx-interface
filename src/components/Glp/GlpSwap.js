@@ -36,6 +36,7 @@ import {
   ARBITRUM,
   PLACEHOLDER_ACCOUNT,
   importImage,
+  LOCAL,
 } from "../../Helpers";
 
 import { callContract, useGmxPrice, useInfoTokens } from "../../Api";
@@ -670,7 +671,7 @@ export default function GlpSwap(props) {
             <div className="App-card-title-mark">
               <div className="App-card-title-mark-icon">
                 <img src={glp40Icon} alt="glp40Icon" />
-                {chainId === ARBITRUM ? (
+                {chainId === ARBITRUM || chainId === LOCAL ? (
                   <img src={arbitrum16Icon} alt="arbitrum16Icon" className="selected-network-symbol" />
                 ) : (
                   <img src={avalanche16Icon} alt="avalanche16Icon" className="selected-network-symbol" />

@@ -43,6 +43,7 @@ import {
   INCREASE,
   DECREASE,
   ARBITRUM_TESTNET,
+  LOCAL
 } from "../Helpers";
 import { getTokens, getTokenBySymbol, getWhitelistedTokens } from "../data/Tokens";
 
@@ -100,7 +101,6 @@ export function useInfoTokens(library, chainId, active, tokenBalances, fundingRa
   const whitelistedTokens = getWhitelistedTokens(chainId);
   const whitelistedTokenAddresses = whitelistedTokens.map((token) => token.address);
 
-  console.log(vaultAddress, positionRouterAddress, nativeTokenAddress, expandDecimals(1, 18));
   const { data: vaultTokenInfo } = useSWR(
     [`useInfoTokens:${active}`, chainId, vaultReaderAddress, "getVaultTokenInfoV4"],
     {
@@ -450,7 +450,7 @@ export function useMinExecutionFee(library, active, chainId, infoTokens) {
   // for executing positions this is around 65,000 gas
   // if gas prices on Ethereum are high, than the gas usage might be higher, this calculation doesn't deal with that
   // case yet
-  if (chainId === ARBITRUM || chainId === ARBITRUM_TESTNET) {
+  if (chainId === ARBITRUM || chainId === LOCAL || chainId === ARBITRUM_TESTNET) {
     multiplier = 65000;
   }
 
